@@ -34,8 +34,3 @@ RUN	apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
-
-
-
-	
-	
