@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -y install net-tools iputils-ping apt-utils ca-cer
 #Clean the temps
 RUN	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD /etc/init.d/ssh start && /bin/bash
+CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
 
 
 
