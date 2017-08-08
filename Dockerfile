@@ -37,10 +37,10 @@ ENV HADOOP_WEB_PATH http://www-us.apache.org/dist/hadoop/common/hadoop-"${HADOOP
 
 RUN apt-get -y install ssh rsync && \
     wget "${HADOOP_WEB_PATH}" && \
-	tar xzvf hadoop-"${HADOOP_VERSION}".tar.gz -C /tmp && \
-	mkdir -p /usr/local/hadoop && mv /tmp/"${HADOOP_DIR}" "${HADOOP_HOME}" && \
-	rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
-	sed -i 's/^.*export JAVA_HOME.*$/export JAVA_HOME="${JAVA_HOME}"/' "${HADOOP_HOME}"/etc/hadoop/hadoop-env.sh
+    tar xzvf hadoop-"${HADOOP_VERSION}".tar.gz -C /tmp && \
+    mkdir -p /usr/local/hadoop && mv /tmp/"${HADOOP_DIR}" "${HADOOP_HOME}" && \
+    rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
+    sed -i 's/^.*export JAVA_HOME.*$/export JAVA_HOME="${JAVA_HOME}"/' "${HADOOP_HOME}"/etc/hadoop/hadoop-env.sh
 
 #Clean the system
 RUN apt-get autoclean && apt-get --purge -y autoremove && \
