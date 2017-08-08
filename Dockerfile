@@ -29,6 +29,19 @@ RUN wget --ca-certificate=/etc/ssl/certs/GeoTrust_Global_CA.pem --no-cookies --h
     update-alternatives --install "/usr/bin/java" "java" "${JRE_HOME}/bin/java" "${JAVA_VERSION}${JAVA_UPDATE}" && \
     update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" "${JAVA_VERSION}${JAVA_UPDATE}"
 
+# Install hadoop
+ENV HADOOP_VERSION 2.8.1
+ENV HADOOP_DIR hadoop-${HADOOP_VERSION}
+ENV HADOOP_HOME /usr/local/hadoop/${HADOOP_DIR}
+ENV HADOOP_WEB_PATH http://www-us.apache.org/dist/hadoop/common/hadoop-"${HADOOP_VERSION}"/hadoop-"${HADOOP_VERSION}".tar.gz
+
+RUN apt-get -y install ssh rsync && \
+    wget "${HADOOP_WEB_PATH}" && \
+    tar xzvf hadoop-"${HADOOP_VERSION}".tar.gz -C /tmp && \
+    mkdir -p /usr/local/hadoop && mv /tmp/"${HADOOP_DIR}" "${HADOOP_HOME}" && \
+    rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
+    sed -i 's/^.*export JAVA_HOME.*$/export JAVA_HOME="${JAVA_HOME}"/' "${HADOOP_HOME}"/etc/hadoop/hadoop-env.sh
+
 #Clean the system
 RUN apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
