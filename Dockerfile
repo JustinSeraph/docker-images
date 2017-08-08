@@ -30,7 +30,7 @@ RUN wget --ca-certificate=/etc/ssl/certs/GeoTrust_Global_CA.pem --no-cookies --h
 	update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" "${JAVA_VERSION}${JAVA_UPDATE}"
 
 #Clean the system
-RUN	apt-get autoclean && apt-get --purge -y autoremove && \
+RUN apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
