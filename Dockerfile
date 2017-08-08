@@ -42,6 +42,14 @@ RUN apt-get -y install ssh rsync && \
     rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
     sed -i 's/^.*export JAVA_HOME.*$/export JAVA_HOME="${JAVA_HOME}"/' "${HADOOP_HOME}"/etc/hadoop/hadoop-env.sh
 
+# generate key pair
+RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
+    chmod 0600 ~/.ssh/authorized_keys
+
+# Setting for Pseudo-Distributed Operation
+ADD pseudo/* "${HADOOP_HOME}"/etc/hadoop/
+
 #Clean the system
 RUN apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
