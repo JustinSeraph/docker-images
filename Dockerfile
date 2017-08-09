@@ -50,6 +50,9 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
 # Setting for Pseudo-Distributed Operation
 ADD pseudo/* "${HADOOP_HOME}"/etc/hadoop/
 
+# Setting for Pseudo-Distributed-yarn Operation
+ADD pseudo/yarn/* "${HADOOP_HOME}"/etc/hadoop/
+
 #Clean the system
 RUN apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
