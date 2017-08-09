@@ -1,2 +1,2 @@
 ##Docker Run Command:
-docker run -p <ip/domain>:5022:22 --name server -it <Image ID/REPOSITORY>
+docker run --name server -it <Image ID/REPOSITORY>

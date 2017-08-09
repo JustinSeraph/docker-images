@@ -3,16 +3,9 @@ MAINTAINER Justin
 USER root
 ENV DEBIAN_FRONTEND noninteractive
 
-# Update the repository and install some tools
-# Allow root login by ssh
-# Automatically accept public key
-RUN apt-get update && apt-get -y install net-tools iputils-ping apt-utils ca-certificates && \
-    apt-get -y install openssh-server openssh-client && \
-    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
-    sed -i "s/^.*StrictHostKeyChecking.*$/StrictHostKeyChecking no/" /etc/ssh/ssh_config
-
-#Clean the system
-RUN apt-get autoclean && apt-get --purge -y autoremove && \
+# Update the repository and install utils
+RUN apt-get update && apt-get -y install apt-utils net-tools iputils-ping ca-certificates && \
+    apt-get autoclean && apt-get --purge -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
+CMD /bin/bash
