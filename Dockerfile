@@ -1,15 +1,22 @@
-FROM ubuntu
 MAINTAINER Justin
-USER root
+
 ENV DEBIAN_FRONTEND noninteractive
 
-# Update the repository and install some tools
-# Allow root login by ssh
-# Automatically accept public key
-RUN apt-get update && apt-get -y install net-tools iputils-ping apt-utils ca-certificates && \
-    apt-get -y install openssh-server openssh-client && \
-    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
-    sed -i "s/^.*StrictHostKeyChecking.*$/StrictHostKeyChecking no/" /etc/ssh/ssh_config
+# Update the repository and install utils
+RUN apt-get update && \
+    apt-get install -y \
+       apt-utils \
+       gnupg \
+       ca-certificates \
+       net-tools \
+       curl \
+       wget \
+       openssh-server \
+       openssh-client \
+       vim && \
+    apt-get clean && \
+    apt-get --purge -y autoremove && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Java 8
 ENV JAVA_VERSION 8
@@ -35,12 +42,16 @@ ENV HADOOP_DIR hadoop-${HADOOP_VERSION}
 ENV HADOOP_HOME /usr/local/hadoop/${HADOOP_DIR}
 ENV HADOOP_WEB_PATH http://www-us.apache.org/dist/hadoop/common/hadoop-"${HADOOP_VERSION}"/hadoop-"${HADOOP_VERSION}".tar.gz
 
-RUN apt-get -y install ssh rsync && \
-    wget "${HADOOP_WEB_PATH}" && \
+RUN wget "${HADOOP_WEB_PATH}" && \
     tar xzvf hadoop-"${HADOOP_VERSION}".tar.gz -C /tmp && \
     mkdir -p /usr/local/hadoop && mv /tmp/"${HADOOP_DIR}" "${HADOOP_HOME}" && \
     rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
     sed -i 's#^.*export JAVA_HOME.*$#export JAVA_HOME='"$JAVA_HOME"'#' ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh
+
+# Allow root login by ssh
+# Automatically accept public key
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
+    sed -i "s/^.*StrictHostKeyChecking.*$/StrictHostKeyChecking no/" /etc/ssh/ssh_config
 
 # generate key pair
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
@@ -52,9 +63,5 @@ ADD pseudo/* "${HADOOP_HOME}"/etc/hadoop/
 
 # Setting for Pseudo-Distributed-yarn Operation
 ADD pseudo/yarn/* "${HADOOP_HOME}"/etc/hadoop/
-
-#Clean the system
-RUN apt-get autoclean && apt-get --purge -y autoremove && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
