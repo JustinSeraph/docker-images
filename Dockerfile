@@ -1,7 +1,6 @@
 FROM justinxu/docker-images:ubuntu-base
 MAINTAINER Justin
 USER root
-ENV DEBIAN_FRONTEND noninteractive
 
 ENV JAVA_VERSION 8
 ENV JAVA_UPDATE 144
