@@ -12,6 +12,8 @@ RUN apt-get update && \
        net-tools \
        curl \
        wget \
+       openssh-server \
+       openssh-client \
        vim && \
     apt-get clean && \
     apt-get --purge -y autoremove && \
