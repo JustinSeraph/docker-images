@@ -1,6 +1,6 @@
-FROM justinxu/docker-images:ubuntu-java
+FROM justinxu/java
+
 MAINTAINER Justin
-USER root
 
 ENV HADOOP_VERSION 2.8.1
 ENV HADOOP_DIR hadoop-${HADOOP_VERSION}
