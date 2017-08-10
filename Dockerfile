@@ -17,8 +17,6 @@ RUN wget --ca-certificate=/etc/ssl/certs/GeoTrust_Global_CA.pem --no-cookies --h
     mkdir -p /usr/local/java && mv /tmp/"${JAVA_DIR}" "${JAVA_HOME}" && \
     rm -rf server-jre-"${JAVA_VERSION}"u"${JAVA_UPDATE}"-linux-x64.tar.gz &&\
     update-alternatives --install "/usr/bin/java" "java" "${JRE_HOME}/bin/java" "${JAVA_VERSION}${JAVA_UPDATE}" && \
-    update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" "${JAVA_VERSION}${JAVA_UPDATE}" \
-    apt-get autoclean && apt-get --purge -y autoremove && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" "${JAVA_VERSION}${JAVA_UPDATE}"
 
 CMD /bin/bash
