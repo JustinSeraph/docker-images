@@ -1,6 +1,7 @@
 FROM ubuntu
+
 MAINTAINER Justin
-USER root
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update the repository and install utils
