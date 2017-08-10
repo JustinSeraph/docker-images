@@ -1,6 +1,6 @@
-FROM justinxu/docker-images:ubuntu-base
+FROM justinxu/base
+
 MAINTAINER Justin
-USER root
 
 ENV JAVA_VERSION 8
 ENV JAVA_UPDATE 144
