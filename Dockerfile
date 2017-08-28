@@ -12,6 +12,6 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     chmod 0600 ~/.ssh/authorized_keys
 
 # Setting for Pseudo-Distributed Operation
-ADD pseudo/* "${HADOOP_HOME}"/etc/hadoop/
+ADD pseudo/* "${HADOOP_CONF_DIR}"/
 
 CMD echo "root:password"|chpasswd && /etc/init.d/ssh start && /bin/bash
