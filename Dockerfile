@@ -12,6 +12,7 @@ RUN wget "${HADOOP_WEB_PATH}" && \
     tar xzvf hadoop-"${HADOOP_VERSION}".tar.gz -C /tmp && \
     mkdir -p /usr/local/hadoop && mv /tmp/"${HADOOP_DIR}" "${HADOOP_HOME}" && \
     rm -rf hadoop-"${HADOOP_VERSION}".tar.gz && \
-    sed -i 's#^.*export JAVA_HOME.*$#export JAVA_HOME='"$JAVA_HOME"'#' "${HADOOP_CONF_DIR}"/hadoop-env.sh
+    sed -i 's#^.*export JAVA_HOME.*$#export JAVA_HOME='"$JAVA_HOME"'#' "${HADOOP_CONF_DIR}"/hadoop-env.sh && \
+    sed -i 's#^.*export HADOOP_CONF_DIR.*$#export HADOOP_CONF_DIR='"$HADOOP_CONF_DIR"'#' "${HADOOP_CONF_DIR}"/hadoop-env.sh
 
 CMD /bin/bash
